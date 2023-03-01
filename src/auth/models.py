@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from sqlalchemy import MetaData, Integer, String, Table, Column, ForeignKey, TIMESTAMP, JSON, Boolean
-from sqlalchemy.orm import mapped_column
 
 metadata = MetaData()
 
@@ -10,7 +9,7 @@ role = Table(
     metadata,
     Column('id', Integer, primary_key=True),
     Column('name', String, nullable=False),
-    Column('permission', JSON, nullable=False),
+    Column('permission', JSON),
 )
 
 user = Table(

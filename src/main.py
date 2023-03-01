@@ -1,14 +1,10 @@
-from datetime import datetime
-from enum import Enum
-from typing import List, Optional
-
 from fastapi import FastAPI, status, Request, Depends
 from fastapi.encoders import jsonable_encoder
-from fastapi_users import fastapi_users, FastAPIUsers
-from pydantic import BaseModel, Field, ValidationError
+from fastapi_users import FastAPIUsers
+from pydantic import ValidationError
 from starlette.responses import JSONResponse
 
-from auth.database import User
+from src.database import User
 from auth.auth import auth_backend
 from auth.manager import get_user_manager
 from auth.schemas import UserRead, UserCreate
@@ -47,22 +43,15 @@ def validation_error_handler(request: Request, exc: ValidationError):
     )
 
 
-class DegreeType(Enum):
-    newbie = "newbie"
-    expert = "expert"
+# class DegreeType(Enum):
+#     newbie = "newbie"
+#     expert = "expert"
 
 
-class Degree(BaseModel):
-    id: int
-    created_at: datetime
-    type_degree: DegreeType
-
-
-class User(BaseModel):
-    id: int
-    role: str
-    name: str
-    degree: Optional[List[Degree]] = []
+# class Degree(BaseModel):
+#     id: int
+#     created_at: datetime
+#     type_degree: DegreeType
 
 
 # @app.get("/users/{user_id}", response_model=List[User])
@@ -75,13 +64,13 @@ class User(BaseModel):
 #     return fake_trades[offset:][:limit]
 
 
-class Trade(BaseModel):
-    id: int
-    user_id: int
-    currency: str = Field(max_length=5)
-    side: str
-    price: float = Field(ge=0)
-    amount: float
+# class Trade(BaseModel):
+#     id: int
+#     user_id: int
+#     currency: str = Field(max_length=5)
+#     side: str
+#     price: float = Field(ge=0)
+#     amount: float
 
 
 # @app.post("/trades/")
