@@ -3,11 +3,11 @@ from fastapi.encoders import jsonable_encoder
 from fastapi_users import FastAPIUsers
 from pydantic import ValidationError
 from starlette.responses import JSONResponse
-
-from src.database import User
+from database import User
 from auth.auth import auth_backend
 from auth.manager import get_user_manager
 from auth.schemas import UserRead, UserCreate
+from operations.router import router as router_operation
 
 app = FastAPI(
     title="Trading app",
@@ -34,6 +34,8 @@ app.include_router(
     tags=["auth"],
 )
 
+app.include_router(router_operation)
+
 
 @app.exception_handler(ValidationError)
 def validation_error_handler(request: Request, exc: ValidationError):
@@ -41,6 +43,7 @@ def validation_error_handler(request: Request, exc: ValidationError):
         status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
         content=jsonable_encoder({"detail": exc.errors()})
     )
+
 
 
 # class DegreeType(Enum):
@@ -79,14 +82,3 @@ def validation_error_handler(request: Request, exc: ValidationError):
 #     return {
 #         "status": 200, "data": fake_trades
 #     }
-
-current_user = fastapi_users.current_user()
-
-
-@app.get("/protected-route")
-def protected_route(user: User = Depends(current_user)):
-    return f"Hello, {user.username}"
-
-@app.get("/unprotected-route")
-def protected_route():
-    return f"Hello, anonymous"

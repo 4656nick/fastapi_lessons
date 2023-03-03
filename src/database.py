@@ -9,9 +9,9 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import DeclarativeMeta, Mapped, mapped_column
 
-from src.auth.models import role
+from auth.models import role
 
-from src.config import DB_NAME, DB_PASS, DB_USER, DB_HOST, DB_PORT
+from config import DB_NAME, DB_PASS, DB_USER, DB_HOST, DB_PORT
 
 DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 Base: DeclarativeMeta = declarative_base()
